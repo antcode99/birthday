@@ -6,9 +6,9 @@
     <title>For Someone Special</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #050a14; overflow: hidden; font-family: 'Dancing Script', cursive; color: white; cursor: crosshair; }
+        body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #050a14; overflow: hidden; font-family: 'Dancing Script', cursive; color: white; cursor: crosshair; transition: background-color 0.1s; }
         
-        /* Tiny "15" Trail Styling (Cursive) */
+        /* Tiny "15" Trail Styling */
         .trail-15 { 
             position: absolute; 
             font-size: 18px; 
@@ -31,26 +31,11 @@
         .message-line { font-size: 1.8rem; margin: 10px 0; opacity: 0; color: #2d3436; transform: translateY(15px); transition: opacity 1.5s ease, transform 1.5s ease; }
         .message-line.visible { opacity: 1; transform: translateY(0); }
 
-        /* Counter "Alive" Animations */
+        /* Counter Animations */
         #age-counter { font-size: 5rem; font-weight: bold; color: #d63031; margin: 0; display: none; transition: all 0.5s ease; font-family: 'Dancing Script', cursive; }
-        
-        @keyframes numberPop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.4); }
-            100% { transform: scale(1.2); }
-        }
-        @keyframes celebratoryShake {
-            0% { transform: scale(1.2) rotate(0deg); }
-            25% { transform: scale(1.2) rotate(5deg); }
-            75% { transform: scale(1.2) rotate(-5deg); }
-            100% { transform: scale(1.2) rotate(0deg); }
-        }
-        #age-counter.finish {
-            animation: numberPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, 
-                       celebratoryShake 0.5s ease-in-out infinite 0.5s;
-            text-shadow: 0 0 20px #f1c40f, 0 0 30px #f1c40f;
-            color: #f1c40f !important;
-        }
+        @keyframes numberPop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1.2); } }
+        @keyframes celebratoryShake { 0% { transform: scale(1.2) rotate(0deg); } 25% { transform: scale(1.2) rotate(5deg); } 75% { transform: scale(1.2) rotate(-5deg); } 100% { transform: scale(1.2) rotate(0deg); } }
+        #age-counter.finish { animation: numberPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, celebratoryShake 0.5s ease-in-out infinite 0.5s; text-shadow: 0 0 20px #f1c40f, 0 0 30px #f1c40f; color: #f1c40f !important; }
 
         /* Wish & Loader */
         #wish-area { margin-top: 20px; display: none; flex-direction: column; align-items: center; width: 100%; }
@@ -68,9 +53,14 @@
         button { margin-top: 15px; padding: 10px 25px; background: #d63031; color: white; border: none; border-radius: 25px; cursor: pointer; transition: 1s; font-family: 'Dancing Script', cursive; font-size: 1.2rem; font-weight: bold; visibility: hidden; opacity: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         button.show { visibility: visible; opacity: 1; }
 
-        /* Finale */
+        /* --- FINALE PIZZAZZ STYLES --- */
         #finale { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; background-color: #050a14; z-index: 100; opacity: 0; transition: opacity 1.5s; text-align: center; }
-        .polaroid { width: 220px; background: white; padding: 12px 12px 35px 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); transform: rotate(-5deg); margin-bottom: 30px; border-radius: 2px; animation: popIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        .sticker-container { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+        .sticker { position: absolute; font-size: 3.5rem; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4)); animation: float 4s ease-in-out infinite; opacity: 0; transition: opacity 1s; }
+        #finale.visible .sticker { opacity: 1; }
+
+        .polaroid { width: 220px; background: white; padding: 12px 12px 35px 12px; border: 4px solid #fff; box-shadow: 0 0 25px #f1c40f, 0 15px 40px rgba(0,0,0,0.8); transform: rotate(-5deg); margin-bottom: 30px; border-radius: 2px; animation: popIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .polaroid img { width: 100%; height: 200px; object-fit: cover; }
         
         @keyframes popIn { from { transform: scale(0) rotate(-20deg); opacity: 0; } to { transform: scale(1) rotate(-5deg); opacity: 1; } }
@@ -81,6 +71,7 @@
         @keyframes glitch { 0% { text-shadow: 0.05em 0 0 #ff4757, -0.05em -0.025em 0 #2ecc71, 0.025em 0.05em 0 #f1c40f; } 50% { text-shadow: -0.05em -0.025em 0 #ff4757, 0.025em 0.025em 0 #2ecc71, -0.05em -0.05em 0 #f1c40f; } 100% { text-shadow: -0.025em 0 0 #ff4757, -0.025em -0.025em 0 #2ecc71, -0.025em -0.05em 0 #f1c40f; } }
         @keyframes rainbow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10; }
         .hidden { display: none !important; }
     </style>
@@ -125,6 +116,14 @@
 </div>
 
 <div id="finale">
+    <div class="sticker-container">
+        <span class="sticker" style="top: 10%; left: 10%; animation-delay: 0s;">👑</span>
+        <span class="sticker" style="top: 15%; right: 10%; animation-delay: 0.5s;">✨</span>
+        <span class="sticker" style="bottom: 20%; left: 12%; animation-delay: 1s;">🔥</span>
+        <span class="sticker" style="bottom: 15%; right: 15%; animation-delay: 1.5s;">💎</span>
+        <span class="sticker" style="top: 50%; left: 5%; animation-delay: 2s;">🌟</span>
+        <span class="sticker" style="top: 45%; right: 5%; animation-delay: 2.5s;">💖</span>
+    </div>
     <div class="polaroid">
         <img src="background.jpg" alt="Memory">
     </div>
@@ -142,7 +141,6 @@
         3: ["You're finally 15!", "Am I right🤨", "Oh well...", "Make it count."]
     };
 
-    // --- "15" Trail Logic ---
     document.addEventListener('mousemove', (e) => {
         const t15 = document.createElement('div');
         t15.className = 'trail-15';
@@ -163,7 +161,6 @@
         isOpened = true;
         document.getElementById('birthdayMusic').play();
         document.getElementById('birthdayCard').classList.add('open');
-        document.getElementById('final-name').innerText = herName;
         setTimeout(() => showMessages(1, 'text-container-1', 'btn-1'), 1200);
         initConfetti();
     }
@@ -236,10 +233,18 @@
         const interface = document.getElementById('main-interface');
         const finale = document.getElementById('finale');
         interface.style.opacity = "0";
+        
+        // --- CAMERA FLASH EFFECT ---
+        document.body.style.backgroundColor = "white";
+        setTimeout(() => { document.body.style.backgroundColor = "#050a14"; }, 100);
+
         setTimeout(() => {
             interface.classList.add('hidden');
             finale.style.display = "flex";
-            setTimeout(() => { finale.style.opacity = "1"; }, 50);
+            setTimeout(() => { 
+                finale.style.opacity = "1"; 
+                finale.classList.add('visible');
+            }, 50);
             particles = []; for(let i=0; i<450; i++) createParticle();
         }, 800);
     }
